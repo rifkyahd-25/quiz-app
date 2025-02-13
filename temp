@@ -1,0 +1,32 @@
+import { useState, useEffect } from "react";
+// Importing useState and useEffect hooks from React.
+
+export default function QuestionTimer({ timeout, onTimeout }) {
+  // Defining a functional component named QuestionTimer that takes timeout and onTimeout as props.
+
+  const [remainingTime, setRemainingTime] = useState(timeout);
+  // Initializing a state variable remainingTime with the value of timeout and a function setRemainingTime to update it.
+
+  useEffect(() => {
+    console.log("setting timeout");
+    // Logging "setting timeout" to the console for debugging purposes.
+
+    setTimeout(onTimeout, timeout);
+    // Setting a timeout to call the onTimeout function after the specified timeout duration.
+  }, [timeout, onTimeout]);
+  // The effect depends on timeout and onTimeout, so it will run when either of these values change.
+
+  useEffect(() => {
+    console.log("SETTING INTERVAL");
+    // Logging "SETTING INTERVAL" to the console for debugging purposes.
+
+    setInterval(() => {
+      setRemainingTime((prevRemainingTime) => prevRemainingTime - 100);
+      // Decreasing the remainingTime by 100 milliseconds every 100 milliseconds.
+    }, 100);
+  }, []);
+  // The effect has an empty dependency array, so it will run only once after the initial render.
+
+  return <progress id="question-time" max={timeout} value={remainingTime} />;
+  // Rendering a progress element with the id "question-time", max attribute set to timeout, and value attribute set to remainingTime.
+}
